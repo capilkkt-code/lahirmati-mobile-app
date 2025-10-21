@@ -271,6 +271,162 @@
             border-left: 4px solid #F7A400;
         }
 
+        /* Login Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+            position: relative;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #003366;
+            margin-bottom: 10px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(0, 51, 102, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #003366;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #003366;
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            background: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 51, 102, 0.4);
+        }
+
+        .login-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .cancel-button {
+            width: 100%;
+            background: transparent;
+            color: #6c757d;
+            border: 2px solid #e9ecef;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-button:hover {
+            background: #f8f9fa;
+            border-color: #6c757d;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
         /* Contact Page */
         .contact-info {
             background: white;
@@ -724,6 +880,23 @@
             }
         }
 
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         .chart-container {
             animation: fadeInChart 0.6s ease-out;
         }
@@ -926,17 +1099,17 @@
                 </div>
                 
                 <div class="service-cards">
-                    <div class="service-card" onclick="showPage('formPage')">
+                    <div class="service-card" onclick="showFormWithAuth()">
                         <div class="service-icon">🧒</div>
                         <div class="service-title">Pelaporan Kelahiran</div>
                     </div>
                     
-                    <div class="service-card" onclick="showPage('formPage')">
+                    <div class="service-card" onclick="showFormWithAuth()">
                         <div class="service-icon">⚰️</div>
                         <div class="service-title">Pelaporan Kematian</div>
                     </div>
                     
-                    <div class="service-card" onclick="showPage('formPage')">
+                    <div class="service-card" onclick="showFormWithAuth()">
                         <div class="service-icon">📋</div>
                         <div class="service-title">Pelaporan Lahir Mati</div>
                     </div>
@@ -1211,22 +1384,40 @@
                     
                     <div class="contact-info">
                         <h3 style="color: #003366; margin-bottom: 15px;">📧 Email</h3>
-                        <p>disdukcapil@tanimbar.go.id</p>
+                        <p>dukcapil@tanimbar.go.id</p>
                     </div>
                     
                     <div class="contact-info">
                         <h3 style="color: #003366; margin-bottom: 15px;">📞 Telepon</h3>
-                        <p>(0918) 21234</p>
+                        <p>(****)******</p>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h3 style="color: #003366; margin-bottom: 15px;">🗺️ Lokasi Kami</h3>
+                        <div style="border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1975.. !2d131.. !3d-7.. !2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d2755c0292f2a65%3A0x97d389f87f0d32!2sDinas%20Kependudukan%20dan%20Catatan%20Sipil%20Kabupaten%20Tanimbar!5e0!3m2!1sid!2sid!4v. !5m2!1sid!2sid" 
+                                    width="100%" 
+                                    height="300" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    title="Lokasi Dinas Dukcapil Tanimbar">
+                            </iframe>
+                        </div>
+                        <p style="font-size: 14px; color: #6c757d; text-align: center; font-style: italic;">
+                            📍 Dinas Kependudukan dan Catatan Sipil Kabupaten Tanimbar
+                        </p>
                     </div>
                     
                     <div class="contact-buttons">
                         <button class="contact-button" onclick="window.open('tel:+6291821234', '_blank')">
                             📞 Telepon Kami
                         </button>
-                        <button class="contact-button" onclick="window.open('https://wa.me/6291821234', '_blank')">
+                        <button class="contact-button" onclick="window.open('https://wa.me/', '_blank')">
                             💬 Chat WhatsApp
                         </button>
-                        <button class="contact-button" onclick="window.open('https://tanimbar.go.id', '_blank')">
+                        <button class="contact-button" onclick="window.open('https://dukcapil.tanimbar.go.id', '_blank')">
                             🌐 Kunjungi Website
                         </button>
                     </div>
@@ -1234,13 +1425,44 @@
             </div>
         </main>
 
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-icon">🔐</div>
+                    <h3 class="modal-title">Login Tenaga Medis</h3>
+                    <p class="modal-subtitle">Masukkan username dan password untuk mengakses formulir</p>
+                </div>
+                
+                <form id="loginForm">
+                    <div id="errorMessage" class="error-message hidden"></div>
+                    
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" id="username" name="username" class="form-input" placeholder="Masukkan username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-input" placeholder="Masukkan password" required>
+                    </div>
+                    
+                    <button type="submit" id="loginButton" class="login-button">
+                        <span id="loginButtonText">Masuk</span>
+                    </button>
+                    
+                    <button type="button" id="cancelButton" class="cancel-button">Batal</button>
+                </form>
+            </div>
+        </div>
+
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
             <div class="nav-item active" onclick="showPage('homePage')" data-page="homePage">
                 <div class="nav-icon">🏠</div>
                 <div class="nav-label">Beranda</div>
             </div>
-            <div class="nav-item" onclick="showPage('formPage')" data-page="formPage">
+            <div class="nav-item" onclick="showFormWithAuth()" data-page="formPage">
                 <div class="nav-icon">📋</div>
                 <div class="nav-label">Formulir</div>
             </div>
@@ -1307,6 +1529,37 @@
 
             // Refresh data every 5 minutes
             setInterval(updateDashboard, 300000);
+
+            // Initialize login modal event listeners
+            const loginForm = document.getElementById('loginForm');
+            const cancelButton = document.getElementById('cancelButton');
+            const loginModal = document.getElementById('loginModal');
+
+            // Handle login form submission
+            loginForm.addEventListener('submit', handleLogin);
+
+            // Handle cancel button
+            cancelButton.addEventListener('click', hideLoginModal);
+
+            // Handle modal overlay click (close modal)
+            loginModal.addEventListener('click', function(event) {
+                if (event.target === loginModal) {
+                    hideLoginModal();
+                }
+            });
+
+            // Handle escape key to close modal
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && !loginModal.classList.contains('hidden')) {
+                    hideLoginModal();
+                }
+            });
+
+            // Preload user credentials
+            fetchUserCredentials().then(credentials => {
+                userCredentials = credentials;
+                console.log('User credentials loaded:', credentials.length, 'users');
+            });
         });
 
         // Create pie chart function
@@ -1615,6 +1868,178 @@
             }
         }
 
+        // Authentication system
+        let userCredentials = [];
+        let isAuthenticated = false;
+
+        // Fetch user credentials from Google Sheets
+        async function fetchUserCredentials() {
+            try {
+                const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTZ8bmDwSW8fU0j_c8-Ox_rZQEujEHyo70yOd6tFlBDsoGtg9XES6jbOIjWxJSECK5xPbsPKBFkr3Yh/pub?gid=0&single=true&output=csv');
+                const csvText = await response.text();
+                
+                // Parse CSV data
+                const rows = csvText.split('\n').map(row => row.split(','));
+                const headers = rows[0].map(header => header.trim().toLowerCase());
+                
+                // Find column indices
+                const usernameIndex = headers.findIndex(header => header.includes('username'));
+                const passwordIndex = headers.findIndex(header => header.includes('password'));
+                const statusIndex = headers.findIndex(header => header.includes('status'));
+                
+                if (usernameIndex === -1 || passwordIndex === -1 || statusIndex === -1) {
+                    console.log('Required columns not found in credentials sheet');
+                    return [];
+                }
+                
+                // Extract user data
+                const credentials = [];
+                for (let i = 1; i < rows.length; i++) {
+                    if (rows[i][usernameIndex] && rows[i][passwordIndex] && rows[i][statusIndex]) {
+                        credentials.push({
+                            username: rows[i][usernameIndex].trim(),
+                            password: rows[i][passwordIndex].trim(),
+                            status: rows[i][statusIndex].trim().toLowerCase()
+                        });
+                    }
+                }
+                
+                return credentials;
+                
+            } catch (error) {
+                console.log('Error fetching user credentials:', error);
+                return [];
+            }
+        }
+
+        // Show form with authentication
+        function showFormWithAuth() {
+            if (isAuthenticated) {
+                showPage('formPage');
+            } else {
+                showLoginModal();
+            }
+        }
+
+        // Show login modal
+        function showLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.remove('hidden');
+            document.getElementById('username').focus();
+        }
+
+        // Hide login modal
+        function hideLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.add('hidden');
+            clearLoginForm();
+        }
+
+        // Clear login form
+        function clearLoginForm() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            hideErrorMessage();
+        }
+
+        // Show error message
+        function showErrorMessage(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+
+        // Hide error message
+        function hideErrorMessage() {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.classList.add('hidden');
+        }
+
+        // Set loading state
+        function setLoadingState(isLoading) {
+            const button = document.getElementById('loginButton');
+            const buttonText = document.getElementById('loginButtonText');
+            
+            if (isLoading) {
+                button.disabled = true;
+                buttonText.innerHTML = '<span class="loading-spinner"></span>Memverifikasi...';
+            } else {
+                button.disabled = false;
+                buttonText.textContent = 'Masuk';
+            }
+        }
+
+        // Authenticate user
+        async function authenticateUser(username, password) {
+            // Refresh credentials from server
+            userCredentials = await fetchUserCredentials();
+            
+            const user = userCredentials.find(cred => 
+                cred.username === username && 
+                cred.password === password && 
+                cred.status === 'aktif'
+            );
+            
+            return user !== undefined;
+        }
+
+        // Handle login form submission
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!username || !password) {
+                showErrorMessage('Username dan password harus diisi');
+                return;
+            }
+            
+            setLoadingState(true);
+            hideErrorMessage();
+            
+            try {
+                const isValid = await authenticateUser(username, password);
+                
+                if (isValid) {
+                    isAuthenticated = true;
+                    hideLoginModal();
+                    showPage('formPage');
+                    
+                    // Show success message briefly
+                    setTimeout(() => {
+                        const successMsg = document.createElement('div');
+                        successMsg.style.cssText = `
+                            position: fixed;
+                            top: 20px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            background: #d4edda;
+                            color: #155724;
+                            padding: 15px 25px;
+                            border-radius: 10px;
+                            z-index: 3000;
+                            font-weight: 600;
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                        `;
+                        successMsg.textContent = '✅ Login berhasil! Selamat datang.';
+                        document.body.appendChild(successMsg);
+                        
+                        setTimeout(() => {
+                            document.body.removeChild(successMsg);
+                        }, 3000);
+                    }, 500);
+                } else {
+                    showErrorMessage('Username, password salah atau akun tidak aktif');
+                }
+            } catch (error) {
+                showErrorMessage('Terjadi kesalahan saat memverifikasi. Coba lagi.');
+                console.log('Authentication error:', error);
+            }
+            
+            setLoadingState(false);
+        }
+
         // Page navigation function
         function showPage(pageId) {
             // Hide all pages
@@ -1637,5 +2062,5 @@
             window.scrollTo(0, 0);
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991ed46ff7c8fd1b',t:'MTc2MTAyOTUyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991f0df2b645cddd',t:'MTc2MTAzMTg3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
