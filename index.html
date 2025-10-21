@@ -410,7 +410,142 @@
             text-align: center;
         }
 
-        /* Donut Chart */
+        /* Professional Pie Chart Styles */
+        .pie-chart-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 51, 102, 0.08);
+        }
+
+        .pie-chart-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pie-chart-svg {
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+        }
+
+        .pie-chart-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            background: white;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 
+                0 8px 20px rgba(0, 51, 102, 0.1),
+                inset 0 2px 8px rgba(255, 255, 255, 0.8);
+            border: 3px solid rgba(0, 51, 102, 0.1);
+        }
+
+        .pie-total {
+            font-size: 28px;
+            font-weight: 800;
+            color: #003366;
+            margin-bottom: 4px;
+            letter-spacing: -1px;
+        }
+
+        .pie-label {
+            font-size: 11px;
+            color: #6c757d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pie-legend {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .pie-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(0, 51, 102, 0.05);
+        }
+
+        .pie-legend-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 51, 102, 0.15);
+        }
+
+        .pie-legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .pie-legend-content {
+            flex: 1;
+        }
+
+        .pie-legend-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #003366;
+            margin-bottom: 4px;
+        }
+
+        .pie-legend-stats {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .pie-legend-percentage {
+            font-size: 18px;
+            font-weight: 700;
+            color: #003366;
+        }
+
+        .pie-legend-count {
+            font-size: 12px;
+            color: #6c757d;
+            background: #f8f9fa;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .pie-slice {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pie-slice:hover {
+            filter: brightness(1.1);
+            transform: scale(1.02);
+        }
+
+        /* Legacy chart styles for compatibility */
         .donut-chart {
             position: relative;
             display: flex;
@@ -682,35 +817,55 @@
                     
                     <!-- Document Types Chart -->
                     <div class="chart-container">
-                        <h4 class="chart-title">Jenis Dokumen</h4>
-                        <div class="donut-chart" id="documentChart">
-                            <div class="chart-center">
-                                <div class="chart-total">1,247</div>
-                                <div class="chart-label">Total</div>
+                        <h4 class="chart-title">📊 Distribusi Jenis Dokumen</h4>
+                        <div class="pie-chart-container">
+                            <div class="pie-chart-wrapper">
+                                <svg class="pie-chart-svg" width="280" height="280" viewBox="0 0 280 280">
+                                    <defs>
+                                        <filter id="pieDropShadow" x="-50%" y="-50%" width="200%" height="200%">
+                                            <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.15)"/>
+                                        </filter>
+                                    </defs>
+                                    <g id="pieSlices" transform="translate(140,140)" filter="url(#pieDropShadow)">
+                                        <!-- Pie slices will be generated by JavaScript -->
+                                    </g>
+                                </svg>
+                                <div class="pie-chart-center">
+                                    <div class="pie-total">1,247</div>
+                                    <div class="pie-label">Total Dokumen</div>
+                                </div>
                             </div>
-                            <svg class="donut-svg" width="200" height="200" viewBox="0 0 200 200">
-                                <circle cx="100" cy="100" r="80" fill="none" stroke="#f1f3f4" stroke-width="20"/>
-                                <circle cx="100" cy="100" r="80" fill="none" stroke="#003366" stroke-width="20" 
-                                        stroke-dasharray="314" stroke-dashoffset="94" 
-                                        transform="rotate(-90 100 100)" class="progress-circle birth-progress"/>
-                                <circle cx="100" cy="100" r="80" fill="none" stroke="#F7A400" stroke-width="20" 
-                                        stroke-dasharray="314" stroke-dashoffset="188" 
-                                        transform="rotate(70 100 100)" class="progress-circle death-progress"/>
-                                <circle cx="100" cy="100" r="80" fill="none" stroke="#28a745" stroke-width="20" 
-                                        stroke-dasharray="314" stroke-dashoffset="282" 
-                                        transform="rotate(140 100 100)" class="progress-circle stillbirth-progress"/>
-                            </svg>
                         </div>
-                        <div class="chart-legend">
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #003366;"></div>
-                                <span>Kelahiran (70%)</span>
-                                <span class="legend-value">873</span>
+                        <div class="pie-legend">
+                            <div class="pie-legend-item">
+                                <div class="pie-legend-color" style="background: #003366;"></div>
+                                <div class="pie-legend-content">
+                                    <div class="pie-legend-title">🧒 Akta Kelahiran</div>
+                                    <div class="pie-legend-stats">
+                                        <span class="pie-legend-percentage">70%</span>
+                                        <span class="pie-legend-count">873 dokumen</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #F7A400;"></div>
-                                <span>Kematian (30%)</span>
-                                <span class="legend-value">374</span>
+                            <div class="pie-legend-item">
+                                <div class="pie-legend-color" style="background: #F7A400;"></div>
+                                <div class="pie-legend-content">
+                                    <div class="pie-legend-title">⚰️ Akta Kematian</div>
+                                    <div class="pie-legend-stats">
+                                        <span class="pie-legend-percentage">30%</span>
+                                        <span class="pie-legend-count">374 dokumen</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pie-legend-item">
+                                <div class="pie-legend-color" style="background: #28a745;"></div>
+                                <div class="pie-legend-content">
+                                    <div class="pie-legend-title">📋 Akta Lahir Mati</div>
+                                    <div class="pie-legend-stats">
+                                        <span class="pie-legend-percentage">0%</span>
+                                        <span class="pie-legend-count">0 dokumen</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -767,30 +922,7 @@
                         </div>
                     </div>
 
-                    <!-- Monthly Statistics -->
-                    <div class="chart-container">
-                        <h4 class="chart-title">Statistik Bulanan</h4>
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-icon">📈</div>
-                                <div class="stat-number">156</div>
-                                <div class="stat-label">Bulan Ini</div>
-                                <div class="stat-change positive">+12%</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon">⏱️</div>
-                                <div class="stat-number">2.3</div>
-                                <div class="stat-label">Hari Rata-rata</div>
-                                <div class="stat-change positive">-0.5 hari</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon">✅</div>
-                                <div class="stat-number">94%</div>
-                                <div class="stat-label">Tingkat Selesai</div>
-                                <div class="stat-change positive">+3%</div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 
                 <div class="service-cards">
@@ -852,13 +984,105 @@
             <!-- About Page -->
             <div class="page" id="aboutPage">
                 <div class="info-content">
-                    <h2 class="info-title">Tentang Kami</h2>
+                    <h2 class="info-title">Lahir Mati Pro Aktif</h2>
                     
-                    <div class="info-illustration">
-                        🏛️🌊
+                    <div class="info-illustration" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #e9ecef 100%); border: 3px solid rgba(0, 51, 102, 0.1);">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgWFoe-irE1PbxmdBr6ivcCvOcUbWboZcIqE0h9OiVrCH5QCtpc0Ukdw7GdQVjIJ-9fn1pQA3jPxyq3VeJFOYdzurj7O0VaoPJt0ZEaZM-xBpmF5yDYqDRQj8ttjSVJVyjStLS-Nf0TA4EKIo4AR5Ea6Ll7CE3vh3SZpVz0djRmI2nnMmCGYDXWt2rZVhW/s320/LAHIR_MATI__2_-removebg-preview.png" 
+                             alt="Logo Lahir Mati Pro Aktif" 
+                             style="width: 120px; height: 120px; object-fit: contain;"
+                             onerror="this.style.display='none'; this.alt='Logo failed to load';">
                     </div>
                     
-                    <h3 style="color: #003366; font-size: 18px; margin: 20px 0 10px;">Profil</h3>
+                    <h3 style="color: #003366; font-size: 16px; margin: 20px 0 15px; text-align: center; font-weight: 600;">Mempercepat Layanan Dasar dan Meningkatkan Kualitas Data Kependudukan Kabupaten Kepulauan Tanimbar</h3>
+                    
+                    <p class="info-text" style="text-align: center; font-style: italic; background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 4px solid #F7A400;">
+                        Platform Digital Khusus untuk Tenaga Kesehatan yang digunakan untuk kebutuhan Pelaporan Kelahiran, Kematian, dan Lahir Mati yang Akurat, Cepat, dan Terintegrasi dengan Dinas Kependudukan dan Pencatatan Kabupaten Kepulauan Tanimbar
+                    </p>
+
+                    <h3 style="color: #003366; font-size: 18px; margin: 25px 0 15px; display: flex; align-items: center; gap: 10px;">🏝️ Solusi Digital untuk Kepulauan Tanimbar</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+                        <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                            <div style="font-weight: 600; color: #003366; font-size: 14px;">Cepat</div>
+                            <div style="font-size: 11px; color: #6c757d;">Lightning Fast</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
+                            <div style="font-weight: 600; color: #003366; font-size: 14px;">Akurat</div>
+                            <div style="font-size: 11px; color: #6c757d;">Precise Data</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🔗</div>
+                            <div style="font-weight: 600; color: #003366; font-size: 14px;">Terintegrasi</div>
+                            <div style="font-size: 11px; color: #6c757d;">Connected System</div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #003366; font-size: 18px; margin: 25px 0 15px; display: flex; align-items: center; gap: 10px;">💫 Tentang Aplikasi</h3>
+                    <h4 style="color: #F7A400; font-size: 16px; margin-bottom: 15px; font-weight: 600;">Inovasi Digital untuk Masa Depan Kabupaten Kepulauan Tanimbar</h4>
+                    
+                    <p class="info-text" style="background: linear-gradient(135deg, #e3f2fd 0%, #f8f9fa 100%); padding: 15px; border-radius: 10px; border-left: 4px solid #003366;">
+                        Meningkatkan Kualitas Database Kependudukan untuk kebutuhan Pelayanan Publik dan Perencanaan Pembangunan di Kabupaten Kepulauan Tanimbar
+                    </p>
+                    
+                    <p class="info-text">
+                        Aplikasi Lahir Mati Pro Aktif merupakan inisiatif strategis Pemerintah Kabupaten Kepulauan Tanimbar untuk menjembatani kesenjangan pelaporan peristiwa kependudukan antara garis depan layanan kesehatan di desa dan kecamatan dengan petugas Dinas Kependudukan dan Pencatatan Sipil (Dukcapil).
+                    </p>
+                    
+                    <p class="info-text">
+                        Dibangun dengan pemahaman mendalam terhadap tantangan geografis kepulauan, aplikasi ini mentransformasi proses pelaporan yang sebelumnya manual dan memakan waktu menjadi proses digital yang dapat dilakukan dari mana saja, kapan saja. Setiap laporan yang masuk bukan hanya sekadar data, tetapi merupakan fondasi bagi perencanaan pembangunan kesehatan, sosial, dan ekonomi yang tepat sasaran.
+                    </p>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 25px 0; padding: 20px; background: linear-gradient(135deg, #003366 0%, #0066cc 100%); border-radius: 15px; color: white;">
+                        <div style="text-align: center; flex: 1;">
+                            <div style="font-size: 28px; margin-bottom: 5px;">🏥</div>
+                            <div style="font-size: 12px; font-weight: 500;">Puskesmas & Pustu</div>
+                        </div>
+                        <div style="font-size: 20px; color: #F7A400;">→</div>
+                        <div style="text-align: center; flex: 1;">
+                            <div style="font-size: 28px; margin-bottom: 5px;">📱</div>
+                            <div style="font-size: 12px; font-weight: 500;">Platform Digital</div>
+                        </div>
+                        <div style="font-size: 20px; color: #F7A400;">→</div>
+                        <div style="text-align: center; flex: 1;">
+                            <div style="font-size: 28px; margin-bottom: 5px;">🏛️</div>
+                            <div style="font-size: 12px; font-weight: 500;">Dinas Dukcapil</div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #003366; font-size: 18px; margin: 25px 0 15px; display: flex; align-items: center; gap: 10px;">❓ Mengapa Penting</h3>
+                    <h4 style="color: #F7A400; font-size: 16px; margin-bottom: 20px; font-weight: 600;">Mengapa Lahir Mati Pro Aktif Sangat Penting?</h4>
+
+                    <div class="mission-item" style="margin: 15px 0;">
+                        <h4 style="color: #003366; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">👩‍⚕️ Untuk Tenaga Medis</h4>
+                        <div style="margin-left: 35px;">
+                            <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #F7A400;">🎯 Berkontribusi Langsung</strong></p>
+                            <p style="margin: 8px 0; font-size: 14px; color: #495057;">Anda adalah ujung tombak dalam memastikan setiap warga Tanimbar tercatat secara hukum sejak dari detik pertama kehidupannya hingga akhir hayatnya.</p>
+                        </div>
+                    </div>
+
+                    <div class="mission-item" style="margin: 15px 0;">
+                        <h4 style="color: #003366; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">👨‍👩‍👧‍👦 Untuk Masyarakat</h4>
+                        <div style="margin-left: 35px;">
+                            <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #F7A400;">⚖️ Kepastian Hukum</strong></p>
+                            <p style="margin: 8px 0; font-size: 14px; color: #495057;">Memastikan hak-hak dasar anak (akta kelahiran) dan kepastian hukum bagi ahli waris (akta kematian) dapat diproses tanpa delay.</p>
+                            <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #F7A400;">🛡️ Perlindungan Sosial</strong></p>
+                            <p style="margin: 8px 0; font-size: 14px; color: #495057;">Data yang akurat dan cepat memungkinkan program bantuan sosial, BPJS, dan program pemerintah lainnya tepat sasaran.</p>
+                        </div>
+                    </div>
+
+                    <div class="mission-item" style="margin: 15px 0;">
+                        <h4 style="color: #003366; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">🏛️ Untuk Pemerintah</h4>
+                        <div style="margin-left: 35px;">
+                            <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #F7A400;">📊 Data Real-Time</strong></p>
+                            <p style="margin: 8px 0; font-size: 14px; color: #495057;">Mendapatkan data vital yang akurat dan mutakhir untuk keperluan perencanaan kesehatan, alokasi anggaran, dan pemetaan kebijakan.</p>
+                            <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #F7A400;">🏆 Good Governance</strong></p>
+                            <p style="margin: 8px 0; font-size: 14px; color: #495057;">Mewujudkan transparansi dan akuntabilitas dalam layanan administrasi kependudukan.</p>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #003366; font-size: 18px; margin: 25px 0 10px;">Profil Instansi</h3>
                     <p class="info-text">
                         Dinas Kependudukan dan Pencatatan Sipil Kabupaten Kepulauan Tanimbar
                     </p>
@@ -965,7 +1189,7 @@
             window.scrollTo(0, 0);
         }
 
-        // Add smooth transitions and chart animations
+        // Initialize dashboard without animations
         document.addEventListener('DOMContentLoaded', function() {
             const serviceCards = document.querySelectorAll('.service-card');
             serviceCards.forEach(card => {
@@ -977,77 +1201,78 @@
                 });
             });
 
-            // Load real data first, then animate charts
-            updateDashboard().then(() => {
-                setTimeout(() => {
-                    animateCharts();
-                }, 500);
-            });
+            // Initialize pie chart
+            initializePieChart();
+
+            // Load real data
+            updateDashboard();
 
             // Refresh data every 5 minutes
             setInterval(updateDashboard, 300000);
         });
 
-        function animateCharts() {
-            // Animate donut chart
-            setTimeout(() => {
-                const birthProgress = document.querySelector('.birth-progress');
-                const deathProgress = document.querySelector('.death-progress');
-                const stillbirthProgress = document.querySelector('.stillbirth-progress');
+        // Create pie chart function
+        function createPieChart(data) {
+            const svg = document.getElementById('pieSlices');
+            if (!svg) return;
+
+            // Clear existing slices
+            svg.innerHTML = '';
+
+            const total = data.reduce((sum, item) => sum + item.value, 0);
+            if (total === 0) return;
+
+            const radius = 100;
+            const colors = ['#003366', '#F7A400', '#28a745'];
+            
+            let currentAngle = -90; // Start from top
+
+            data.forEach((item, index) => {
+                const percentage = (item.value / total) * 100;
+                const angle = (item.value / total) * 360;
                 
-                if (birthProgress) {
-                    birthProgress.style.strokeDashoffset = birthProgress.style.strokeDashoffset || '94';
+                if (percentage > 0) {
+                    const slice = createPieSlice(radius, currentAngle, angle, colors[index], item.label);
+                    svg.appendChild(slice);
+                    currentAngle += angle;
                 }
-                if (deathProgress) {
-                    deathProgress.style.strokeDashoffset = deathProgress.style.strokeDashoffset || '188';
-                }
-                if (stillbirthProgress) {
-                    stillbirthProgress.style.strokeDashoffset = stillbirthProgress.style.strokeDashoffset || '282';
-                }
-            }, 500);
-
-            // Animate bar chart
-            setTimeout(() => {
-                const barFills = document.querySelectorAll('.bar-fill');
-                barFills.forEach((bar, index) => {
-                    setTimeout(() => {
-                        bar.style.width = bar.style.width; // Trigger animation
-                    }, index * 200);
-                });
-            }, 1000);
-
-            // Animate stat numbers
-            setTimeout(() => {
-                animateNumbers();
-            }, 1500);
+            });
         }
 
-        function animateNumbers() {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            statNumbers.forEach(stat => {
-                const finalValue = stat.textContent;
-                const isPercentage = finalValue.includes('%');
-                const numericValue = parseFloat(finalValue);
-                
-                let currentValue = 0;
-                const increment = numericValue / 30;
-                
-                const timer = setInterval(() => {
-                    currentValue += increment;
-                    if (currentValue >= numericValue) {
-                        currentValue = numericValue;
-                        clearInterval(timer);
-                    }
-                    
-                    if (isPercentage) {
-                        stat.textContent = Math.round(currentValue) + '%';
-                    } else if (finalValue.includes('.')) {
-                        stat.textContent = currentValue.toFixed(1);
-                    } else {
-                        stat.textContent = Math.round(currentValue);
-                    }
-                }, 50);
-            });
+        function createPieSlice(radius, startAngle, angle, color, label) {
+            const startAngleRad = (startAngle * Math.PI) / 180;
+            const endAngleRad = ((startAngle + angle) * Math.PI) / 180;
+            
+            const x1 = radius * Math.cos(startAngleRad);
+            const y1 = radius * Math.sin(startAngleRad);
+            const x2 = radius * Math.cos(endAngleRad);
+            const y2 = radius * Math.sin(endAngleRad);
+            
+            const largeArcFlag = angle > 180 ? 1 : 0;
+            
+            const pathData = [
+                'M', 0, 0,
+                'L', x1, y1,
+                'A', radius, radius, 0, largeArcFlag, 1, x2, y2,
+                'Z'
+            ].join(' ');
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('fill', color);
+            path.setAttribute('class', 'pie-slice');
+            path.setAttribute('data-label', label);
+            
+            return path;
+        }
+
+        function initializePieChart() {
+            const initialData = [
+                { label: 'Akta Kelahiran', value: 873 },
+                { label: 'Akta Kematian', value: 374 },
+                { label: 'Akta Lahir Mati', value: 0 }
+            ];
+            createPieChart(initialData);
         }
 
         // Fetch data from Google Sheets
@@ -1155,10 +1380,14 @@
             const data = await fetchDataFromSheets();
             
             if (data) {
-                // Update total count
+                // Update total count for pie chart
                 const totalElement = document.querySelector('.chart-total');
+                const pieTotal = document.querySelector('.pie-total');
                 if (totalElement) {
                     totalElement.textContent = data.total.toLocaleString();
+                }
+                if (pieTotal) {
+                    pieTotal.textContent = data.total.toLocaleString();
                 }
                 
                 // Calculate percentages for all three document types
@@ -1166,50 +1395,53 @@
                 const aktaKematianPercent = data.total > 0 ? Math.round((data.aktaKematian / data.total) * 100) : 0;
                 const aktaLahirMatiPercent = data.total > 0 ? Math.round((data.aktaLahirMati / data.total) * 100) : 0;
                 
-                // Update legend to show all three document types
-                const legendContainer = document.querySelector('.chart-legend');
-                if (legendContainer) {
-                    legendContainer.innerHTML = `
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #003366;"></div>
-                            <span>Akta Kelahiran (${aktaKelahiranPercent}%)</span>
-                            <span class="legend-value">${data.aktaKelahiran.toLocaleString()}</span>
+                // Update pie chart legend
+                const pieLegend = document.querySelector('.pie-legend');
+                
+                if (pieLegend) {
+                    pieLegend.innerHTML = `
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-color" style="background: #003366;"></div>
+                            <div class="pie-legend-content">
+                                <div class="pie-legend-title">🧒 Akta Kelahiran</div>
+                                <div class="pie-legend-stats">
+                                    <span class="pie-legend-percentage">${aktaKelahiranPercent}%</span>
+                                    <span class="pie-legend-count">${data.aktaKelahiran.toLocaleString()} dokumen</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #F7A400;"></div>
-                            <span>Akta Kematian (${aktaKematianPercent}%)</span>
-                            <span class="legend-value">${data.aktaKematian.toLocaleString()}</span>
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-color" style="background: #F7A400;"></div>
+                            <div class="pie-legend-content">
+                                <div class="pie-legend-title">⚰️ Akta Kematian</div>
+                                <div class="pie-legend-stats">
+                                    <span class="pie-legend-percentage">${aktaKematianPercent}%</span>
+                                    <span class="pie-legend-count">${data.aktaKematian.toLocaleString()} dokumen</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #28a745;"></div>
-                            <span>Akta Lahir Mati (${aktaLahirMatiPercent}%)</span>
-                            <span class="legend-value">${data.aktaLahirMati.toLocaleString()}</span>
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-color" style="background: #28a745;"></div>
+                            <div class="pie-legend-content">
+                                <div class="pie-legend-title">📋 Akta Lahir Mati</div>
+                                <div class="pie-legend-stats">
+                                    <span class="pie-legend-percentage">${aktaLahirMatiPercent}%</span>
+                                    <span class="pie-legend-count">${data.aktaLahirMati.toLocaleString()} dokumen</span>
+                                </div>
+                            </div>
                         </div>
                     `;
                 }
+
+                // Update pie chart with new data
+                const pieChartData = [
+                    { label: 'Akta Kelahiran', value: data.aktaKelahiran },
+                    { label: 'Akta Kematian', value: data.aktaKematian },
+                    { label: 'Akta Lahir Mati', value: data.aktaLahirMati }
+                ];
+                createPieChart(pieChartData);
                 
-                // Update donut chart with three segments
-                const circumference = 2 * Math.PI * 80; // radius = 80
-                const kelahiranOffset = circumference - (aktaKelahiranPercent / 100) * circumference;
-                const kematianOffset = circumference - (aktaKematianPercent / 100) * circumference;
-                const lahirMatiOffset = circumference - (aktaLahirMatiPercent / 100) * circumference;
-                
-                const birthProgress = document.querySelector('.birth-progress');
-                const deathProgress = document.querySelector('.death-progress');
-                const stillbirthProgress = document.querySelector('.stillbirth-progress');
-                
-                if (birthProgress) {
-                    birthProgress.style.strokeDasharray = circumference;
-                    birthProgress.style.strokeDashoffset = kelahiranOffset;
-                }
-                if (deathProgress) {
-                    deathProgress.style.strokeDasharray = circumference;
-                    deathProgress.style.strokeDashoffset = kematianOffset;
-                }
-                if (stillbirthProgress) {
-                    stillbirthProgress.style.strokeDasharray = circumference;
-                    stillbirthProgress.style.strokeDashoffset = lahirMatiOffset;
-                }
+
                 
                 // Update district progress bars
                 if (data.districts) {
@@ -1229,10 +1461,17 @@
 
         // Update district chart with real data
         function updateDistrictChart(districts, totalDocs) {
-            // Sort districts by count (descending)
-            const sortedDistricts = Object.entries(districts)
-                .sort(([,a], [,b]) => b - a)
-                .slice(0, 5); // Show top 5 districts
+            // Fixed order as requested
+            const orderedDistricts = [
+                'Tanimbar Selatan', 'Selaru', 'Wertamrian', 'Wermaktian', 
+                'Tanimbar Utara', 'Fordata', 'Wuarlabobar', 'Kormomolin', 
+                'Nirunmas', 'Molu Maru'
+            ];
+            
+            // Create array with ordered districts and their counts
+            const sortedDistricts = orderedDistricts
+                .map(district => [district, districts[district] || 0])
+                .filter(([,count]) => count > 0); // Only show districts with data
             
             const barChart = document.querySelector('.bar-chart');
             if (!barChart) return;
@@ -1240,13 +1479,18 @@
             // Clear existing bars
             barChart.innerHTML = '';
             
-            // Colors for different districts
+            // Colors for different districts (expanded for all 10 districts)
             const colors = [
                 'linear-gradient(90deg, #003366, #0066cc)',
                 'linear-gradient(90deg, #F7A400, #ffc107)',
                 'linear-gradient(90deg, #28a745, #20c997)',
                 'linear-gradient(90deg, #6f42c1, #8e44ad)',
-                'linear-gradient(90deg, #dc3545, #e74c3c)'
+                'linear-gradient(90deg, #dc3545, #e74c3c)',
+                'linear-gradient(90deg, #17a2b8, #20c997)',
+                'linear-gradient(90deg, #fd7e14, #ffc107)',
+                'linear-gradient(90deg, #e83e8c, #f8d7da)',
+                'linear-gradient(90deg, #6610f2, #6f42c1)',
+                'linear-gradient(90deg, #20c997, #28a745)'
             ];
             
             sortedDistricts.forEach(([district, count], index) => {
@@ -1260,7 +1504,7 @@
                         <span class="bar-value">${percentage}% (${count})</span>
                     </div>
                     <div class="bar-track">
-                        <div class="bar-fill" style="width: ${percentage}%; background: ${colors[index] || colors[4]};"></div>
+                        <div class="bar-fill" style="width: ${percentage}%; background: ${colors[index % colors.length]};"></div>
                     </div>
                 `;
                 
@@ -1273,7 +1517,7 @@
             }
         }
 
-        // Re-animate charts when returning to home page
+        // Page navigation function
         function showPage(pageId) {
             // Hide all pages
             const pages = document.querySelectorAll('.page');
@@ -1291,16 +1535,9 @@
                 activeNav.classList.add('active');
             }
             
-            // Animate charts if returning to home page
-            if (pageId === 'homePage') {
-                setTimeout(() => {
-                    animateCharts();
-                }, 300);
-            }
-            
             // Scroll to top
             window.scrollTo(0, 0);
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991e62e2f1b0fd1c',t:'MTc2MTAyNDg3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991e82a946d1fd1c',t:'MTc2MTAyNjE3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
