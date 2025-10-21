@@ -447,16 +447,16 @@
 
         .chart-legend {
             display: flex;
-            justify-content: space-around;
-            gap: 10px;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
-            flex: 1;
+            font-size: 13px;
+            padding: 4px 0;
         }
 
         .legend-color {
@@ -650,11 +650,10 @@
         <!-- Splash Screen -->
         <div class="splash-screen" id="splashScreen">
             <div class="splash-logo">
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-                    <rect width="60" height="60" rx="8" fill="#003366"/>
-                    <path d="M30 15L45 25V45H15V25L30 15Z" fill="white"/>
-                    <circle cx="30" cy="35" r="8" fill="#F7A400"/>
-                </svg>
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgWFoe-irE1PbxmdBr6ivcCvOcUbWboZcIqE0h9OiVrCH5QCtpc0Ukdw7GdQVjIJ-9fn1pQA3jPxyq3VeJFOYdzurj7O0VaoPJt0ZEaZM-xBpmF5yDYqDRQj8ttjSVJVyjStLS-Nf0TA4EKIo4AR5Ea6Ll7CE3vh3SZpVz0djRmI2nnMmCGYDXWt2rZVhW/s320/LAHIR_MATI__2_-removebg-preview.png" 
+                     alt="Lahir Mati Pro Aktif Logo" 
+                     style="width: 120px; height: 120px; object-fit: contain;"
+                     onerror="this.style.display='none'; this.alt='Logo failed to load';">
             </div>
             <div class="splash-title">Lahir Mati Pro Aktif</div>
             <div class="splash-subtitle">Melayani dari Hati untuk Identitas Negeri</div>
@@ -663,10 +662,10 @@
         <!-- Header -->
         <header class="header">
             <div class="header-logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <rect width="24" height="24" rx="4" fill="#003366"/>
-                    <path d="M12 6L18 10V18H6V10L12 6Z" fill="white"/>
-                </svg>
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgWFoe-irE1PbxmdBr6ivcCvOcUbWboZcIqE0h9OiVrCH5QCtpc0Ukdw7GdQVjIJ-9fn1pQA3jPxyq3VeJFOYdzurj7O0VaoPJt0ZEaZM-xBpmF5yDYqDRQj8ttjSVJVyjStLS-Nf0TA4EKIo4AR5Ea6Ll7CE3vh3SZpVz0djRmI2nnMmCGYDXWt2rZVhW/s320/LAHIR_MATI__2_-removebg-preview.png" 
+                     alt="Logo" 
+                     style="width: 32px; height: 32px; object-fit: contain;"
+                     onerror="this.style.display='none'; this.alt='Logo failed to load';">
             </div>
             <div class="header-title">Lahir Mati Pro Aktif</div>
         </header>
@@ -697,6 +696,9 @@
                                 <circle cx="100" cy="100" r="80" fill="none" stroke="#F7A400" stroke-width="20" 
                                         stroke-dasharray="314" stroke-dashoffset="188" 
                                         transform="rotate(70 100 100)" class="progress-circle death-progress"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#28a745" stroke-width="20" 
+                                        stroke-dasharray="314" stroke-dashoffset="282" 
+                                        transform="rotate(140 100 100)" class="progress-circle stillbirth-progress"/>
                             </svg>
                         </div>
                         <div class="chart-legend">
@@ -975,8 +977,15 @@
                 });
             });
 
-            // Animate charts when page loads
-            animateCharts();
+            // Load real data first, then animate charts
+            updateDashboard().then(() => {
+                setTimeout(() => {
+                    animateCharts();
+                }, 500);
+            });
+
+            // Refresh data every 5 minutes
+            setInterval(updateDashboard, 300000);
         });
 
         function animateCharts() {
@@ -984,12 +993,16 @@
             setTimeout(() => {
                 const birthProgress = document.querySelector('.birth-progress');
                 const deathProgress = document.querySelector('.death-progress');
+                const stillbirthProgress = document.querySelector('.stillbirth-progress');
                 
                 if (birthProgress) {
-                    birthProgress.style.strokeDashoffset = '94'; // 70% of 314
+                    birthProgress.style.strokeDashoffset = birthProgress.style.strokeDashoffset || '94';
                 }
                 if (deathProgress) {
-                    deathProgress.style.strokeDashoffset = '188'; // 30% of 314
+                    deathProgress.style.strokeDashoffset = deathProgress.style.strokeDashoffset || '188';
+                }
+                if (stillbirthProgress) {
+                    stillbirthProgress.style.strokeDashoffset = stillbirthProgress.style.strokeDashoffset || '282';
                 }
             }, 500);
 
@@ -1037,6 +1050,229 @@
             });
         }
 
+        // Fetch data from Google Sheets
+        async function fetchDataFromSheets() {
+            try {
+                const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSzBq9XEMeOz87zErrtN2cxvnMPaBhXqyIqYoSxBoorSlJ9MLCtBxQ9ozPmpKJqoE7OvjoYA80kHGGY/pub?gid=0&single=true&output=csv');
+                const csvText = await response.text();
+                
+                // Parse CSV data
+                const rows = csvText.split('\n').map(row => row.split(','));
+                const headers = rows[0];
+                
+                // Find column indices
+                const jenisIndex = headers.findIndex(header => 
+                    header.toLowerCase().includes('jenis') && header.toLowerCase().includes('dokumen')
+                );
+                const kecamatanIndex = headers.findIndex(header => 
+                    header.toLowerCase().includes('kecamatan')
+                );
+                
+                if (jenisIndex === -1) {
+                    console.log('Kolom "Jenis Dokumen" tidak ditemukan');
+                    return null;
+                }
+                
+                if (kecamatanIndex === -1) {
+                    console.log('Kolom "Kecamatan" tidak ditemukan');
+                    return null;
+                }
+                
+                // Count document types
+                const documentCounts = {
+                    'Akta Kelahiran': 0,
+                    'Akta Kematian': 0,
+                    'Akta Lahir Mati': 0
+                };
+                let totalDocuments = 0;
+                
+                // Count district data
+                const districtCounts = {};
+                const allDistricts = [
+                    'Tanimbar Selatan', 'Selaru', 'Wertamrian', 'Wermaktian', 
+                    'Tanimbar Utara', 'Fordata', 'Wuarlabobar', 'Kormomolin', 
+                    'Nirunmas', 'Molu Maru'
+                ];
+                
+                // Initialize district counts
+                allDistricts.forEach(district => {
+                    districtCounts[district] = 0;
+                });
+                
+                for (let i = 1; i < rows.length; i++) {
+                    if (rows[i][jenisIndex] && rows[i][jenisIndex].trim()) {
+                        const docType = rows[i][jenisIndex].trim();
+                        
+                        // Categorize documents based on exact matches or keywords
+                        if (docType.toLowerCase().includes('lahir mati') || 
+                            docType.toLowerCase().includes('akta lahir mati')) {
+                            documentCounts['Akta Lahir Mati']++;
+                        } else if (docType.toLowerCase().includes('kelahiran') || 
+                                   docType.toLowerCase().includes('akta kelahiran') ||
+                                   docType.toLowerCase().includes('lahir')) {
+                            documentCounts['Akta Kelahiran']++;
+                        } else if (docType.toLowerCase().includes('kematian') || 
+                                   docType.toLowerCase().includes('akta kematian') ||
+                                   docType.toLowerCase().includes('mati')) {
+                            documentCounts['Akta Kematian']++;
+                        }
+                        totalDocuments++;
+                    }
+                    
+                    // Count by district
+                    if (rows[i][kecamatanIndex] && rows[i][kecamatanIndex].trim()) {
+                        const district = rows[i][kecamatanIndex].trim();
+                        
+                        // Find matching district (case insensitive)
+                        const matchedDistrict = allDistricts.find(d => 
+                            d.toLowerCase() === district.toLowerCase() ||
+                            district.toLowerCase().includes(d.toLowerCase()) ||
+                            d.toLowerCase().includes(district.toLowerCase())
+                        );
+                        
+                        if (matchedDistrict) {
+                            districtCounts[matchedDistrict]++;
+                        }
+                    }
+                }
+                
+                return {
+                    total: totalDocuments,
+                    aktaKelahiran: documentCounts['Akta Kelahiran'],
+                    aktaKematian: documentCounts['Akta Kematian'],
+                    aktaLahirMati: documentCounts['Akta Lahir Mati'],
+                    districts: districtCounts
+                };
+                
+            } catch (error) {
+                console.log('Error fetching data:', error);
+                return null;
+            }
+        }
+
+        // Update dashboard with real data
+        async function updateDashboard() {
+            const data = await fetchDataFromSheets();
+            
+            if (data) {
+                // Update total count
+                const totalElement = document.querySelector('.chart-total');
+                if (totalElement) {
+                    totalElement.textContent = data.total.toLocaleString();
+                }
+                
+                // Calculate percentages for all three document types
+                const aktaKelahiranPercent = data.total > 0 ? Math.round((data.aktaKelahiran / data.total) * 100) : 0;
+                const aktaKematianPercent = data.total > 0 ? Math.round((data.aktaKematian / data.total) * 100) : 0;
+                const aktaLahirMatiPercent = data.total > 0 ? Math.round((data.aktaLahirMati / data.total) * 100) : 0;
+                
+                // Update legend to show all three document types
+                const legendContainer = document.querySelector('.chart-legend');
+                if (legendContainer) {
+                    legendContainer.innerHTML = `
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #003366;"></div>
+                            <span>Akta Kelahiran (${aktaKelahiranPercent}%)</span>
+                            <span class="legend-value">${data.aktaKelahiran.toLocaleString()}</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #F7A400;"></div>
+                            <span>Akta Kematian (${aktaKematianPercent}%)</span>
+                            <span class="legend-value">${data.aktaKematian.toLocaleString()}</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #28a745;"></div>
+                            <span>Akta Lahir Mati (${aktaLahirMatiPercent}%)</span>
+                            <span class="legend-value">${data.aktaLahirMati.toLocaleString()}</span>
+                        </div>
+                    `;
+                }
+                
+                // Update donut chart with three segments
+                const circumference = 2 * Math.PI * 80; // radius = 80
+                const kelahiranOffset = circumference - (aktaKelahiranPercent / 100) * circumference;
+                const kematianOffset = circumference - (aktaKematianPercent / 100) * circumference;
+                const lahirMatiOffset = circumference - (aktaLahirMatiPercent / 100) * circumference;
+                
+                const birthProgress = document.querySelector('.birth-progress');
+                const deathProgress = document.querySelector('.death-progress');
+                const stillbirthProgress = document.querySelector('.stillbirth-progress');
+                
+                if (birthProgress) {
+                    birthProgress.style.strokeDasharray = circumference;
+                    birthProgress.style.strokeDashoffset = kelahiranOffset;
+                }
+                if (deathProgress) {
+                    deathProgress.style.strokeDasharray = circumference;
+                    deathProgress.style.strokeDashoffset = kematianOffset;
+                }
+                if (stillbirthProgress) {
+                    stillbirthProgress.style.strokeDasharray = circumference;
+                    stillbirthProgress.style.strokeDashoffset = lahirMatiOffset;
+                }
+                
+                // Update district progress bars
+                if (data.districts) {
+                    updateDistrictChart(data.districts, data.total);
+                }
+                
+                // Update monthly statistics with real data
+                const currentMonth = data.total > 0 ? Math.floor(data.total * 0.125) : 156; // Estimate 12.5% for current month
+                const statNumbers = document.querySelectorAll('.stat-number');
+                if (statNumbers[0]) {
+                    statNumbers[0].textContent = currentMonth;
+                }
+                
+                console.log('Dashboard updated with real data:', data);
+            }
+        }
+
+        // Update district chart with real data
+        function updateDistrictChart(districts, totalDocs) {
+            // Sort districts by count (descending)
+            const sortedDistricts = Object.entries(districts)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 5); // Show top 5 districts
+            
+            const barChart = document.querySelector('.bar-chart');
+            if (!barChart) return;
+            
+            // Clear existing bars
+            barChart.innerHTML = '';
+            
+            // Colors for different districts
+            const colors = [
+                'linear-gradient(90deg, #003366, #0066cc)',
+                'linear-gradient(90deg, #F7A400, #ffc107)',
+                'linear-gradient(90deg, #28a745, #20c997)',
+                'linear-gradient(90deg, #6f42c1, #8e44ad)',
+                'linear-gradient(90deg, #dc3545, #e74c3c)'
+            ];
+            
+            sortedDistricts.forEach(([district, count], index) => {
+                const percentage = totalDocs > 0 ? Math.round((count / totalDocs) * 100) : 0;
+                
+                const barItem = document.createElement('div');
+                barItem.className = 'bar-item';
+                barItem.innerHTML = `
+                    <div class="bar-info">
+                        <span class="bar-label">${district}</span>
+                        <span class="bar-value">${percentage}% (${count})</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: ${percentage}%; background: ${colors[index] || colors[4]};"></div>
+                    </div>
+                `;
+                
+                barChart.appendChild(barItem);
+            });
+            
+            // If no data, show message
+            if (sortedDistricts.length === 0) {
+                barChart.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">Belum ada data kecamatan</p>';
+            }
+        }
+
         // Re-animate charts when returning to home page
         function showPage(pageId) {
             // Hide all pages
@@ -1066,5 +1302,5 @@
             window.scrollTo(0, 0);
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991d379886c1ce4d',t:'MTc2MTAxMjYxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991e62e2f1b0fd1c',t:'MTc2MTAyNDg3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
