@@ -107,6 +107,43 @@
         .header-title {
             font-size: 18px;
             font-weight: 600;
+            flex: 1;
+        }
+
+        .refresh-button {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            color: white;
+        }
+
+        .refresh-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .refresh-button:active {
+            transform: scale(0.95);
+        }
+
+        .refresh-spinning {
+            animation: refreshSpin 1s linear infinite;
+        }
+
+        @keyframes refreshSpin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Main Content */
@@ -976,6 +1013,9 @@
                      onerror="this.style.display='none'; this.alt='Logo failed to load';">
             </div>
             <div class="header-title">Lahir Mati Pro Aktif</div>
+            <div class="refresh-button" onclick="refreshApp()" title="Refresh Aplikasi">
+                <span id="refreshIcon">🔄</span>
+            </div>
         </header>
 
         <!-- Main Content -->
@@ -986,7 +1026,7 @@
 
                 <!-- Progress Charts Section -->
                 <div class="charts-section">
-                    <h3 class="section-title">📊 Progres Layanan</h3>
+                    <h3 class="section-title">📊 Dashboard Layanan</h3>
                     
                     <!-- Document Types Chart -->
                     <div class="chart-container">
@@ -2061,6 +2101,88 @@
             // Scroll to top
             window.scrollTo(0, 0);
         }
+
+        // Refresh application
+        function refreshApp() {
+            const refreshIcon = document.getElementById('refreshIcon');
+            
+            // Add spinning animation
+            refreshIcon.classList.add('refresh-spinning');
+            
+            // Update dashboard data
+            updateDashboard().then(() => {
+                // Refresh user credentials
+                return fetchUserCredentials();
+            }).then(credentials => {
+                userCredentials = credentials;
+                console.log('App refreshed - credentials updated:', credentials.length, 'users');
+                
+                // Remove spinning animation after refresh complete
+                setTimeout(() => {
+                    refreshIcon.classList.remove('refresh-spinning');
+                }, 1000);
+                
+                // Show success message
+                const successMsg = document.createElement('div');
+                successMsg.style.cssText = `
+                    position: fixed;
+                    top: 80px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #d4edda;
+                    color: #155724;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    z-index: 3000;
+                    font-size: 14px;
+                    font-weight: 500;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    max-width: 300px;
+                    text-align: center;
+                `;
+                successMsg.textContent = '✅ Data berhasil diperbarui';
+                document.body.appendChild(successMsg);
+                
+                setTimeout(() => {
+                    if (document.body.contains(successMsg)) {
+                        document.body.removeChild(successMsg);
+                    }
+                }, 2500);
+                
+            }).catch(error => {
+                console.log('Refresh error:', error);
+                
+                // Remove spinning animation on error
+                refreshIcon.classList.remove('refresh-spinning');
+                
+                // Show error message
+                const errorMsg = document.createElement('div');
+                errorMsg.style.cssText = `
+                    position: fixed;
+                    top: 80px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #f8d7da;
+                    color: #721c24;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    z-index: 3000;
+                    font-size: 14px;
+                    font-weight: 500;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    max-width: 300px;
+                    text-align: center;
+                `;
+                errorMsg.textContent = '❌ Gagal memperbarui data';
+                document.body.appendChild(errorMsg);
+                
+                setTimeout(() => {
+                    if (document.body.contains(errorMsg)) {
+                        document.body.removeChild(errorMsg);
+                    }
+                }, 2500);
+            });
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991f0df2b645cddd',t:'MTc2MTAzMTg3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99249d43b0aafd03',t:'MTc2MTA5MDE3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
