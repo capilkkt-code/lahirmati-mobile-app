@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lahir Mati Pro Aktif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            max-width: 414px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            height: 100vh;
+            background: linear-gradient(135deg, #003366 0%, #0066cc 50%, #ffffff 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeOut 3s ease-in-out 2s forwards;
+        }
+
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .splash-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .splash-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+            text-align: center;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 1s both;
+            padding: 0 40px;
+        }
+
+        /* Header */
+        .header {
+            background: #003366;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 0 0 80px 0;
+            min-height: calc(100vh - 140px);
+        }
+
+        .page {
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero-section {
+            padding: 30px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .hero-illustration {
+            width: 200px;
+            height: 150px;
+            margin: 0 auto 30px;
+            background: #e3f2fd;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .main-button {
+            background: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,51,102,0.3);
+        }
+
+        .main-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,51,102,0.4);
+        }
+
+        .service-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #F7A400;
+        }
+
+        .service-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .service-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        /* Form Page */
+        .form-container {
+            padding: 20px;
+        }
+
+        .form-iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .back-button {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #5a6268;
+        }
+
+        /* Info Pages */
+        .info-content {
+            padding: 20px;
+        }
+
+        .info-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #003366;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        .info-illustration {
+            width: 100%;
+            height: 200px;
+            background: #e3f2fd;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            margin: 20px 0;
+        }
+
+        .mission-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mission-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid #F7A400;
+        }
+
+        /* Contact Page */
+        .contact-info {
+            background: white;
+            margin: 10px 0;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .contact-button {
+            background: white;
+            border: 2px solid #003366;
+            color: #003366;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .contact-button:hover {
+            background: #003366;
+            color: white;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            background: rgba(0,51,102,0.1);
+            color: #003366;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Charts Section */
+        .charts-section {
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #003366;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #003366;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Donut Chart */
+        .donut-chart {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .chart-total {
+            font-size: 24px;
+            font-weight: 700;
+            color: #003366;
+        }
+
+        .chart-label {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .donut-svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle {
+            transition: stroke-dashoffset 2s ease-in-out;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-value {
+            font-weight: 600;
+            color: #003366;
+            margin-left: auto;
+        }
+
+        /* Bar Chart */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .bar-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .bar-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .bar-label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .bar-value {
+            font-weight: 600;
+            color: #003366;
+        }
+
+        .bar-track {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s ease-in-out;
+            animation: fillBar 2s ease-in-out;
+        }
+
+        /* Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #F7A400;
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #003366;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #6c757d;
+            margin-bottom: 4px;
+        }
+
+        .stat-change {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+
+        .stat-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .stat-change.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Chart Animations */
+        @keyframes fillBar {
+            from {
+                width: 0%;
+            }
+        }
+
+        @keyframes fadeInChart {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chart-container {
+            animation: fadeInChart 0.6s ease-out;
+        }
+
+        .chart-container:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .chart-container:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .chart-container:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 375px) {
+            .splash-title {
+                font-size: 24px;
+            }
+            
+            .hero-illustration {
+                width: 180px;
+                height: 130px;
+            }
+            
+            .main-button {
+                padding: 15px 30px;
+                font-size: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .donut-svg {
+                width: 180px;
+                height: 180px;
+            }
+
+            .chart-total {
+                font-size: 20px;
+            }
+
+            .legend-item {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Splash Screen -->
+        <div class="splash-screen" id="splashScreen">
+            <div class="splash-logo">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                    <rect width="60" height="60" rx="8" fill="#003366"/>
+                    <path d="M30 15L45 25V45H15V25L30 15Z" fill="white"/>
+                    <circle cx="30" cy="35" r="8" fill="#F7A400"/>
+                </svg>
+            </div>
+            <div class="splash-title">Lahir Mati Pro Aktif</div>
+            <div class="splash-subtitle">Melayani dari Hati untuk Identitas Negeri</div>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect width="24" height="24" rx="4" fill="#003366"/>
+                    <path d="M12 6L18 10V18H6V10L12 6Z" fill="white"/>
+                </svg>
+            </div>
+            <div class="header-title">Lahir Mati Pro Aktif</div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Page -->
+            <div class="page active" id="homePage">
+                <div class="hero-section">
+                    <div class="hero-illustration">
+                        👥📋
+                    </div>
+                    <button class="main-button" onclick="showPage('formPage')">
+                        👉 Mulai Layanan
+                    </button>
+                </div>
+
+                <!-- Progress Charts Section -->
+                <div class="charts-section">
+                    <h3 class="section-title">📊 Progres Layanan</h3>
+                    
+                    <!-- Document Types Chart -->
+                    <div class="chart-container">
+                        <h4 class="chart-title">Jenis Dokumen</h4>
+                        <div class="donut-chart" id="documentChart">
+                            <div class="chart-center">
+                                <div class="chart-total">1,247</div>
+                                <div class="chart-label">Total</div>
+                            </div>
+                            <svg class="donut-svg" width="200" height="200" viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#f1f3f4" stroke-width="20"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#003366" stroke-width="20" 
+                                        stroke-dasharray="314" stroke-dashoffset="94" 
+                                        transform="rotate(-90 100 100)" class="progress-circle birth-progress"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#F7A400" stroke-width="20" 
+                                        stroke-dasharray="314" stroke-dashoffset="188" 
+                                        transform="rotate(70 100 100)" class="progress-circle death-progress"/>
+                            </svg>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #003366;"></div>
+                                <span>Kelahiran (70%)</span>
+                                <span class="legend-value">873</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #F7A400;"></div>
+                                <span>Kematian (30%)</span>
+                                <span class="legend-value">374</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Districts Progress Chart -->
+                    <div class="chart-container">
+                        <h4 class="chart-title">Progres per Kecamatan</h4>
+                        <div class="bar-chart">
+                            <div class="bar-item">
+                                <div class="bar-info">
+                                    <span class="bar-label">Tanimbar Selatan</span>
+                                    <span class="bar-value">85%</span>
+                                </div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="width: 85%; background: linear-gradient(90deg, #003366, #0066cc);"></div>
+                                </div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-info">
+                                    <span class="bar-label">Tanimbar Utara</span>
+                                    <span class="bar-value">72%</span>
+                                </div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="width: 72%; background: linear-gradient(90deg, #F7A400, #ffc107);"></div>
+                                </div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-info">
+                                    <span class="bar-label">Selaru</span>
+                                    <span class="bar-value">68%</span>
+                                </div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="width: 68%; background: linear-gradient(90deg, #28a745, #20c997);"></div>
+                                </div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-info">
+                                    <span class="bar-label">Wer Tamrian</span>
+                                    <span class="bar-value">61%</span>
+                                </div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="width: 61%; background: linear-gradient(90deg, #6f42c1, #8e44ad);"></div>
+                                </div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-info">
+                                    <span class="bar-label">Wer Maktian</span>
+                                    <span class="bar-value">55%</span>
+                                </div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="width: 55%; background: linear-gradient(90deg, #dc3545, #e74c3c);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Statistics -->
+                    <div class="chart-container">
+                        <h4 class="chart-title">Statistik Bulanan</h4>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">📈</div>
+                                <div class="stat-number">156</div>
+                                <div class="stat-label">Bulan Ini</div>
+                                <div class="stat-change positive">+12%</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">⏱️</div>
+                                <div class="stat-number">2.3</div>
+                                <div class="stat-label">Hari Rata-rata</div>
+                                <div class="stat-change positive">-0.5 hari</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">✅</div>
+                                <div class="stat-number">94%</div>
+                                <div class="stat-label">Tingkat Selesai</div>
+                                <div class="stat-change positive">+3%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-cards">
+                    <div class="service-card" onclick="showPage('formPage')">
+                        <div class="service-icon">🧒</div>
+                        <div class="service-title">Pendaftaran Kelahiran</div>
+                    </div>
+                    
+                    <div class="service-card" onclick="showPage('formPage')">
+                        <div class="service-icon">⚰️</div>
+                        <div class="service-title">Pendaftaran Kematian</div>
+                    </div>
+                    
+                    <div class="service-card" onclick="showPage('infoPage')">
+                        <div class="service-icon">ℹ️</div>
+                        <div class="service-title">Informasi Layanan</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Page -->
+            <div class="page" id="formPage">
+                <div class="form-container">
+                    <button class="back-button" onclick="showPage('homePage')">
+                        ← Kembali ke Beranda
+                    </button>
+                    <iframe 
+                        src="https://tally.so/r/wkVByM" 
+                        class="form-iframe"
+                        title="Formulir Pendaftaran">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Info Page -->
+            <div class="page" id="infoPage">
+                <div class="info-content">
+                    <h2 class="info-title">Tentang Layanan Lahir Mati Pro Aktif</h2>
+                    
+                    <div class="info-illustration">
+                        📱💙
+                    </div>
+                    
+                    <p class="info-text">
+                        Layanan Lahir Mati Pro Aktif adalah inovasi Dinas Kependudukan dan Pencatatan Sipil Kabupaten Kepulauan Tanimbar untuk memastikan setiap peristiwa kelahiran dan kematian dapat dilaporkan dengan mudah, cepat, dan tanpa biaya.
+                    </p>
+                    
+                    <p class="info-text">
+                        Dengan teknologi digital terdepan, kami berkomitmen memberikan pelayanan administrasi kependudukan yang berkualitas untuk seluruh masyarakat Kepulauan Tanimbar.
+                    </p>
+                </div>
+            </div>
+
+            <!-- About Page -->
+            <div class="page" id="aboutPage">
+                <div class="info-content">
+                    <h2 class="info-title">Tentang Kami</h2>
+                    
+                    <div class="info-illustration">
+                        🏛️🌊
+                    </div>
+                    
+                    <h3 style="color: #003366; font-size: 18px; margin: 20px 0 10px;">Profil</h3>
+                    <p class="info-text">
+                        Dinas Kependudukan dan Pencatatan Sipil Kabupaten Kepulauan Tanimbar
+                    </p>
+                    
+                    <h3 style="color: #003366; font-size: 18px; margin: 20px 0 10px;">Visi</h3>
+                    <p class="info-text">
+                        Terselenggaranya layanan administrasi kependudukan yang tertib, cepat, dan akurat berbasis digital.
+                    </p>
+                    
+                    <h3 style="color: #003366; font-size: 18px; margin: 20px 0 10px;">Misi</h3>
+                    <ul class="mission-list">
+                        <li class="mission-item">Meningkatkan kualitas layanan publik berbasis teknologi</li>
+                        <li class="mission-item">Mewujudkan data kependudukan tunggal yang valid</li>
+                        <li class="mission-item">Membangun budaya pelayanan yang humanis dan profesional</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact Page -->
+            <div class="page" id="contactPage">
+                <div class="info-content">
+                    <h2 class="info-title">Kontak Kami</h2>
+                    
+                    <div class="contact-info">
+                        <h3 style="color: #003366; margin-bottom: 15px;">📍 Alamat</h3>
+                        <p>Jl. Ir. Soekarno, Saumlaki, Kepulauan Tanimbar</p>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h3 style="color: #003366; margin-bottom: 15px;">📧 Email</h3>
+                        <p>disdukcapil@tanimbar.go.id</p>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h3 style="color: #003366; margin-bottom: 15px;">📞 Telepon</h3>
+                        <p>(0918) 21234</p>
+                    </div>
+                    
+                    <div class="contact-buttons">
+                        <button class="contact-button" onclick="window.open('tel:+6291821234', '_blank')">
+                            📞 Telepon Kami
+                        </button>
+                        <button class="contact-button" onclick="window.open('https://wa.me/6291821234', '_blank')">
+                            💬 Chat WhatsApp
+                        </button>
+                        <button class="contact-button" onclick="window.open('https://tanimbar.go.id', '_blank')">
+                            🌐 Kunjungi Website
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="showPage('homePage')" data-page="homePage">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Beranda</div>
+            </div>
+            <div class="nav-item" onclick="showPage('formPage')" data-page="formPage">
+                <div class="nav-icon">📋</div>
+                <div class="nav-label">Formulir</div>
+            </div>
+            <div class="nav-item" onclick="showPage('infoPage')" data-page="infoPage">
+                <div class="nav-icon">ℹ️</div>
+                <div class="nav-label">Informasi</div>
+            </div>
+            <div class="nav-item" onclick="showPage('aboutPage')" data-page="aboutPage">
+                <div class="nav-icon">🧭</div>
+                <div class="nav-label">Tentang</div>
+            </div>
+            <div class="nav-item" onclick="showPage('contactPage')" data-page="contactPage">
+                <div class="nav-icon">☎️</div>
+                <div class="nav-label">Kontak</div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Hide splash screen after animation
+        setTimeout(() => {
+            document.getElementById('splashScreen').style.display = 'none';
+        }, 4000);
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            const activeNav = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Add smooth transitions and chart animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // Animate charts when page loads
+            animateCharts();
+        });
+
+        function animateCharts() {
+            // Animate donut chart
+            setTimeout(() => {
+                const birthProgress = document.querySelector('.birth-progress');
+                const deathProgress = document.querySelector('.death-progress');
+                
+                if (birthProgress) {
+                    birthProgress.style.strokeDashoffset = '94'; // 70% of 314
+                }
+                if (deathProgress) {
+                    deathProgress.style.strokeDashoffset = '188'; // 30% of 314
+                }
+            }, 500);
+
+            // Animate bar chart
+            setTimeout(() => {
+                const barFills = document.querySelectorAll('.bar-fill');
+                barFills.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.width = bar.style.width; // Trigger animation
+                    }, index * 200);
+                });
+            }, 1000);
+
+            // Animate stat numbers
+            setTimeout(() => {
+                animateNumbers();
+            }, 1500);
+        }
+
+        function animateNumbers() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const finalValue = stat.textContent;
+                const isPercentage = finalValue.includes('%');
+                const numericValue = parseFloat(finalValue);
+                
+                let currentValue = 0;
+                const increment = numericValue / 30;
+                
+                const timer = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= numericValue) {
+                        currentValue = numericValue;
+                        clearInterval(timer);
+                    }
+                    
+                    if (isPercentage) {
+                        stat.textContent = Math.round(currentValue) + '%';
+                    } else if (finalValue.includes('.')) {
+                        stat.textContent = currentValue.toFixed(1);
+                    } else {
+                        stat.textContent = Math.round(currentValue);
+                    }
+                }, 50);
+            });
+        }
+
+        // Re-animate charts when returning to home page
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            const activeNav = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+            
+            // Animate charts if returning to home page
+            if (pageId === 'homePage') {
+                setTimeout(() => {
+                    animateCharts();
+                }, 300);
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991ce1d6653f6bd5',t:'MTc2MTAwOTA5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
