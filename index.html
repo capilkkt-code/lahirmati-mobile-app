@@ -1455,7 +1455,7 @@
                         <button class="contact-button" onclick="window.open('tel:+6281343201115', '_blank')">
                             📞 Telepon Kami
                         </button>
-                        <button class="contact-button" onclick="window.open('https://wa.me/'6281343201115, '_blank')">
+                        <button class="contact-button" onclick="window.open('https://wa.me/6281343201115', '_blank')">
                             💬 Chat WhatsApp
                         </button>
                         <button class="contact-button" onclick="window.open('https://dukcapil.tanimbar.go.id', '_blank')">
@@ -2131,7 +2131,7 @@
                             successMsg.innerHTML = '✅ Formulir berhasil dikirim!<br><small style="font-weight: 400;">Aplikasi akan diperbarui...</small>';
                             document.body.appendChild(successMsg);
                             
-                            // Auto refresh after 2 seconds
+                            // Auto refresh and redirect to home after 2 seconds
                             setTimeout(() => {
                                 document.body.removeChild(successMsg);
                                 
@@ -2141,7 +2141,10 @@
                                 // Refresh dashboard data
                                 refreshApp();
                                 
-                                // Show completion message
+                                // Redirect to home page
+                                showPage('homePage');
+                                
+                                // Show completion message on home page
                                 setTimeout(() => {
                                     const completeMsg = document.createElement('div');
                                     completeMsg.style.cssText = `
@@ -2160,7 +2163,7 @@
                                         max-width: 300px;
                                         text-align: center;
                                     `;
-                                    completeMsg.textContent = '🔄 Formulir siap untuk pelaporan berikutnya';
+                                    completeMsg.textContent = '✅ Data berhasil dikirim! Kembali ke beranda';
                                     document.body.appendChild(completeMsg);
                                     
                                     setTimeout(() => {
@@ -2168,7 +2171,7 @@
                                             document.body.removeChild(completeMsg);
                                         }
                                     }, 3000);
-                                }, 1000);
+                                }, 500);
                                 
                             }, 2000);
                         }
@@ -2208,7 +2211,7 @@
                         successMsg.innerHTML = '✅ Formulir berhasil dikirim!<br><small style="font-weight: 400;">Aplikasi akan diperbarui...</small>';
                         document.body.appendChild(successMsg);
                         
-                        // Auto refresh after 2 seconds
+                        // Auto refresh and redirect to home after 2 seconds
                         setTimeout(() => {
                             document.body.removeChild(successMsg);
                             
@@ -2221,7 +2224,10 @@
                             // Refresh dashboard data
                             refreshApp();
                             
-                            // Show completion message
+                            // Redirect to home page
+                            showPage('homePage');
+                            
+                            // Show completion message on home page
                             setTimeout(() => {
                                 const completeMsg = document.createElement('div');
                                 completeMsg.style.cssText = `
@@ -2240,7 +2246,7 @@
                                     max-width: 300px;
                                     text-align: center;
                                 `;
-                                completeMsg.textContent = '🔄 Formulir siap untuk pelaporan berikutnya';
+                                completeMsg.textContent = '✅ Data berhasil dikirim! Kembali ke beranda';
                                 document.body.appendChild(completeMsg);
                                 
                                 setTimeout(() => {
@@ -2248,7 +2254,7 @@
                                         document.body.removeChild(completeMsg);
                                     }
                                 }, 3000);
-                            }, 1000);
+                            }, 500);
                             
                         }, 2000);
                     }
@@ -2360,5 +2366,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993a489f31fbce3b',t:'MTc2MTMxNzM5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993a64291586ce75',t:'MTc2MTMxODUyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
