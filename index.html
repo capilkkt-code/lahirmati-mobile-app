@@ -1170,7 +1170,8 @@
                     <iframe 
                         src="https://tally.so/r/wkVByM" 
                         class="form-iframe"
-                        title="Formulir Pendaftaran">
+                        title="Formulir Pendaftaran"
+                        id="formIframe">
                     </iframe>
                 </div>
             </div>
@@ -1454,7 +1455,7 @@
                         <button class="contact-button" onclick="window.open('tel:+6281343201115', '_blank')">
                             📞 Telepon Kami
                         </button>
-                        <button class="contact-button" onclick="window.open('https://wa.me/6281343201115', '_blank')">
+                        <button class="contact-button" onclick="window.open('https://wa.me/'6281343201115, '_blank')">
                             💬 Chat WhatsApp
                         </button>
                         <button class="contact-button" onclick="window.open('https://dukcapil.tanimbar.go.id', '_blank')">
@@ -1600,6 +1601,10 @@
                 userCredentials = credentials;
                 console.log('User credentials loaded:', credentials.length, 'users');
             });
+
+            // Setup form submission monitoring
+            setupFormCommunication();
+            monitorFormSubmission();
         });
 
         // Create pie chart function
@@ -2080,6 +2085,177 @@
             setLoadingState(false);
         }
 
+        // Monitor form submission and auto-refresh
+        function monitorFormSubmission() {
+            const iframe = document.getElementById('formIframe');
+            if (!iframe) return;
+
+            // Listen for form submission completion
+            let checkSubmissionInterval;
+            
+            iframe.onload = function() {
+                // Clear any existing interval
+                if (checkSubmissionInterval) {
+                    clearInterval(checkSubmissionInterval);
+                }
+                
+                // Start monitoring for form submission
+                checkSubmissionInterval = setInterval(() => {
+                    try {
+                        // Check if iframe URL has changed (indicating form submission)
+                        const currentSrc = iframe.src;
+                        
+                        // If URL contains success parameters or thank you page
+                        if (currentSrc.includes('thank') || currentSrc.includes('success') || currentSrc.includes('submitted')) {
+                            // Form has been submitted successfully
+                            clearInterval(checkSubmissionInterval);
+                            
+                            // Show success message
+                            const successMsg = document.createElement('div');
+                            successMsg.style.cssText = `
+                                position: fixed;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                background: #d4edda;
+                                color: #155724;
+                                padding: 20px 30px;
+                                border-radius: 15px;
+                                z-index: 3000;
+                                font-size: 16px;
+                                font-weight: 600;
+                                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                                text-align: center;
+                                border: 2px solid #c3e6cb;
+                            `;
+                            successMsg.innerHTML = '✅ Formulir berhasil dikirim!<br><small style="font-weight: 400;">Aplikasi akan diperbarui...</small>';
+                            document.body.appendChild(successMsg);
+                            
+                            // Auto refresh after 2 seconds
+                            setTimeout(() => {
+                                document.body.removeChild(successMsg);
+                                
+                                // Refresh the iframe to reset form
+                                iframe.src = iframe.src;
+                                
+                                // Refresh dashboard data
+                                refreshApp();
+                                
+                                // Show completion message
+                                setTimeout(() => {
+                                    const completeMsg = document.createElement('div');
+                                    completeMsg.style.cssText = `
+                                        position: fixed;
+                                        top: 80px;
+                                        left: 50%;
+                                        transform: translateX(-50%);
+                                        background: #d1ecf1;
+                                        color: #0c5460;
+                                        padding: 12px 20px;
+                                        border-radius: 8px;
+                                        z-index: 3000;
+                                        font-size: 14px;
+                                        font-weight: 500;
+                                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                                        max-width: 300px;
+                                        text-align: center;
+                                    `;
+                                    completeMsg.textContent = '🔄 Formulir siap untuk pelaporan berikutnya';
+                                    document.body.appendChild(completeMsg);
+                                    
+                                    setTimeout(() => {
+                                        if (document.body.contains(completeMsg)) {
+                                            document.body.removeChild(completeMsg);
+                                        }
+                                    }, 3000);
+                                }, 1000);
+                                
+                            }, 2000);
+                        }
+                    } catch (error) {
+                        // Cross-origin restrictions prevent direct access
+                        // Use alternative method: monitor for URL changes
+                        console.log('Monitoring form submission...');
+                    }
+                }, 2000); // Check every 2 seconds
+            };
+        }
+
+        // Alternative method: Monitor form submission using postMessage
+        function setupFormCommunication() {
+            window.addEventListener('message', function(event) {
+                // Check if message is from Tally form
+                if (event.origin.includes('tally.so')) {
+                    if (event.data && event.data.type === 'TALLY_FORM_SUBMIT') {
+                        // Form has been submitted
+                        const successMsg = document.createElement('div');
+                        successMsg.style.cssText = `
+                            position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: #d4edda;
+                            color: #155724;
+                            padding: 20px 30px;
+                            border-radius: 15px;
+                            z-index: 3000;
+                            font-size: 16px;
+                            font-weight: 600;
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                            text-align: center;
+                            border: 2px solid #c3e6cb;
+                        `;
+                        successMsg.innerHTML = '✅ Formulir berhasil dikirim!<br><small style="font-weight: 400;">Aplikasi akan diperbarui...</small>';
+                        document.body.appendChild(successMsg);
+                        
+                        // Auto refresh after 2 seconds
+                        setTimeout(() => {
+                            document.body.removeChild(successMsg);
+                            
+                            // Refresh the iframe to reset form
+                            const iframe = document.getElementById('formIframe');
+                            if (iframe) {
+                                iframe.src = iframe.src;
+                            }
+                            
+                            // Refresh dashboard data
+                            refreshApp();
+                            
+                            // Show completion message
+                            setTimeout(() => {
+                                const completeMsg = document.createElement('div');
+                                completeMsg.style.cssText = `
+                                    position: fixed;
+                                    top: 80px;
+                                    left: 50%;
+                                    transform: translateX(-50%);
+                                    background: #d1ecf1;
+                                    color: #0c5460;
+                                    padding: 12px 20px;
+                                    border-radius: 8px;
+                                    z-index: 3000;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                                    max-width: 300px;
+                                    text-align: center;
+                                `;
+                                completeMsg.textContent = '🔄 Formulir siap untuk pelaporan berikutnya';
+                                document.body.appendChild(completeMsg);
+                                
+                                setTimeout(() => {
+                                    if (document.body.contains(completeMsg)) {
+                                        document.body.removeChild(completeMsg);
+                                    }
+                                }, 3000);
+                            }, 1000);
+                            
+                        }, 2000);
+                    }
+                }
+            });
+        }
+
         // Page navigation function
         function showPage(pageId) {
             // Hide all pages
@@ -2184,5 +2360,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99249d43b0aafd03',t:'MTc2MTA5MDE3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993a489f31fbce3b',t:'MTc2MTMxNzM5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
